@@ -1,7 +1,7 @@
-// HDCLCodec.cpp: implementation of the CHDCLCodec class.
-//
+// HDLCCodec.cpp: implementation of the CHDLCCodec class.
+// By: Sharper Huang ,hsharper@126.com
 //////////////////////////////////////////////////////////////////////
-//HDLCÃæÏò±ÈÌØµÄÍ¬²½Ğ­Òé
+//HDLCé¢å‘æ¯”ç‰¹çš„åŒæ­¥åè®®
 #include <malloc.h>
 #include "HDLCCodec.h"
 
@@ -81,12 +81,12 @@ unsigned char C_BYTEINVERSE_MAP[256] = {
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                             ComputeFCS 
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ¼ÆËãFCS
-*º¯Êı²ÎÊı:                             
-*          szData  : unsigned char* => Ö¸Ïò×Ö½ÚÊı×éµÄÖ¸Õë
-*          nLen    : int            => Êı×Ö³¤¶È£¬±ØĞë´óÓÚµÈÓÚ1
-*·µ»ØÀàĞÍ: unsigned short
-*·µ »Ø Öµ: CCITT FCS VALUE
+*å‡½æ•°æè¿°: ç”¨äºè®¡ç®—FCS
+*å‡½æ•°å‚æ•°:                             
+*          szData  : unsigned char* => æŒ‡å‘å­—èŠ‚æ•°ç»„çš„æŒ‡é’ˆ
+*          nLen    : int            => æ•°å­—é•¿åº¦ï¼Œå¿…é¡»å¤§äºç­‰äº1
+*è¿”å›ç±»å‹: unsigned short
+*è¿” å› å€¼: CCITT FCS VALUE
 *
 *
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -118,7 +118,7 @@ bool  CheckFCS (const unsigned char *szData, int nLen)
 
     return (wFCS == wStreamFCS);
 }
-//¾²Ì¬º¯Êı
+//é™æ€å‡½æ•°
 static unsigned short CheckBufferSize(unsigned short wBufferSize)
 {
 			if (0 == wBufferSize )
@@ -138,7 +138,7 @@ static unsigned short CheckBufferSize(unsigned short wBufferSize)
 }
 
 //////////////////////////////////////////////////////////////////////
-//¹¹Ôì/Îö¹¹º¯Êı
+//æ„é€ /ææ„å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 
 CHDLCDecode::CHDLCDecode()
@@ -161,26 +161,26 @@ CHDLCDecode::~CHDLCDecode()
    
 }
 //////////////////////////////////////////////////////////////////////
-//Ë½ÓĞº¯Êı
+//ç§æœ‰å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCDecode::ResetDecode
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚÖØÖÃ½âÂë¹ı³Ì
-*º¯Êı²ÎÊı:                      
-*          dwBufSize : unsigned int => »º³åÇø×Ö½ÚÊı
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºé‡ç½®è§£ç è¿‡ç¨‹
+*å‡½æ•°å‚æ•°:                      
+*          dwBufSize : unsigned int => ç¼“å†²åŒºå­—èŠ‚æ•°
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 void CHDLCDecode::ResetDecode(unsigned int dwBufSize)
 {
-    m_bFlagByte        = false; //¼ì²â³ö±êÖ¾Î»±êÖ¾£¬£ô£ò£õ£åÒÑ¼ì²âµ½±êÖ¾Î»
-    m_nHighLevelBits   = 0; //Á¬Ğø¸ßµçÆ½£¨BIT 1)Î»Êı
-    m_ucDecodingByte   = 0; //ÕıÔÚ½âÂëµÄ×Ö½Ú
-    m_nDecodedBits     = 0; //ÒÑ½âÂëµÄÎ»£¨BIT)Êı
-    m_nDecodedBytes    = 0; //ÒÑ½âÂëµÄ×Ö½ÚÊı
-	//·ÖÅä½âÂë»º´æÇø
+    m_bFlagByte        = false; //æ£€æµ‹å‡ºæ ‡å¿—ä½æ ‡å¿—ï¼Œï½”ï½’ï½•ï½…å·²æ£€æµ‹åˆ°æ ‡å¿—ä½
+    m_nHighLevelBits   = 0; //è¿ç»­é«˜ç”µå¹³ï¼ˆBIT 1)ä½æ•°
+    m_ucDecodingByte   = 0; //æ­£åœ¨è§£ç çš„å­—èŠ‚
+    m_nDecodedBits     = 0; //å·²è§£ç çš„ä½ï¼ˆBIT)æ•°
+    m_nDecodedBytes    = 0; //å·²è§£ç çš„å­—èŠ‚æ•°
+	//åˆ†é…è§£ç ç¼“å­˜åŒº
     if (!m_pszDecodedBuf || dwBufSize > m_nBlockSize )
     {
         m_pszDecodedBuf =(unsigned char*) realloc(m_pszDecodedBuf, dwBufSize);
@@ -194,22 +194,22 @@ void CHDLCDecode::ResetDecode(unsigned int dwBufSize)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                         CHDLCDecode::AddBit
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ½«ÒÑ½âÂëµÄBIT¼Óµ½ÕıÔÚ½âÂëµÄ×Ö½ÚÖĞ
-*º¯Êı²ÎÊı:                         
-*          ucBit : unsigned char => 0/1£¬½âÂëºóµÄÎ»(BIT)
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºå°†å·²è§£ç çš„BITåŠ åˆ°æ­£åœ¨è§£ç çš„å­—èŠ‚ä¸­
+*å‡½æ•°å‚æ•°:                         
+*          ucBit : unsigned char => 0/1ï¼Œè§£ç åçš„ä½(BIT)
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCDecode::AddBit(unsigned char ucBit)
 {
  
        m_ucDecodingByte <<= 1;
        m_ucDecodingByte |= ucBit;
-       //ÂúÒ»¸ö×Ö½Ú£¨8 bits£©
+       //æ»¡ä¸€ä¸ªå­—èŠ‚ï¼ˆ8 bitsï¼‰
        if (8 ==(++m_nDecodedBits) )
        {
-          if (m_bFlagByte) //Èç¹û±êÖ¾Î»ÒÑ¼ì²âµ½
+          if (m_bFlagByte) //å¦‚æœæ ‡å¿—ä½å·²æ£€æµ‹åˆ°
           {
-             OnByteDecoded(m_ucDecodingByte); //Ğ´Èë»º´æÇø
+             OnByteDecoded(m_ucDecodingByte); //å†™å…¥ç¼“å­˜åŒº
              m_nDecodedBits = 0;
           }
           else
@@ -225,18 +225,18 @@ inline void CHDLCDecode::AddBit(unsigned char ucBit)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCDecode::OnByteDecoded
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ½«Ò»¸öÒÑ½âÂëµÄ×Ö½ÚĞ´Èë»º´æÇø
-*º¯Êı²ÎÊı:                      
-*          ucByte : unsigned char =>ÒÑ½âÂëµÄ×Ö½Ú
-*·µ»ØÀàĞÍ: inline int 
-*·µ »Ø Öµ: 1 -- ÒÑ»Øµ÷£¬0 - Î´»Øµ÷
+*å‡½æ•°æè¿°: ç”¨äºå°†ä¸€ä¸ªå·²è§£ç çš„å­—èŠ‚å†™å…¥ç¼“å­˜åŒº
+*å‡½æ•°å‚æ•°:                      
+*          ucByte : unsigned char =>å·²è§£ç çš„å­—èŠ‚
+*è¿”å›ç±»å‹: inline int 
+*è¿” å› å€¼: 1 -- å·²å›è°ƒï¼Œ0 - æœªå›è°ƒ
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline int CHDLCDecode::OnByteDecoded(unsigned char ucByte)
 {
-   if (m_bFlagByte) //Ö»ÓĞÔÚÒÑ¼ì²âµ½±ê×¼Î´Ê±²Å¼ÓÈë»º³åÇø
+   if (m_bFlagByte) //åªæœ‰åœ¨å·²æ£€æµ‹åˆ°æ ‡å‡†æœªæ—¶æ‰åŠ å…¥ç¼“å†²åŒº
    {
      m_pszDecodedBuf[m_nDecodedBytes] = ucByte;
-	 //»º³åÇøÂú
+	 //ç¼“å†²åŒºæ»¡
      if((++m_nDecodedBytes) == m_nBlockSize)
      {
         if (m_pfCB)
@@ -256,9 +256,9 @@ inline int CHDLCDecode::OnByteDecoded(unsigned char ucByte)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCDecode::OnFrameAbort
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ¼ì²âµ½¡°È¡Ïû¡±±êÖ¾Ê±µÄ´¦Àí
-*º¯Êı²ÎÊı: ÎŞ
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºæ£€æµ‹åˆ°â€œå–æ¶ˆâ€æ ‡å¿—æ—¶çš„å¤„ç†
+*å‡½æ•°å‚æ•°: æ— 
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCDecode::OnFrameAbort()
 {
@@ -281,15 +281,15 @@ inline void CHDLCDecode::OnFrameAbort()
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCDecode::OnFrameFlagByte
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ¼ì²âµ½±êÖ¾×Ö½Ú£¨Á¬Ğø6¸ö1ºÍ1¸ö0£©Ê±µÄ´¦Àí
-*º¯Êı²ÎÊı: ÎŞ
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºæ£€æµ‹åˆ°æ ‡å¿—å­—èŠ‚ï¼ˆè¿ç»­6ä¸ª1å’Œ1ä¸ª0ï¼‰æ—¶çš„å¤„ç†
+*å‡½æ•°å‚æ•°: æ— 
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCDecode::OnFrameFlagByte(int nOffset)
 {
-   if (m_bFlagByte) //ÒÑ¼ì²âµ½±êÖ¾Î»£¬
+   if (m_bFlagByte) //å·²æ£€æµ‹åˆ°æ ‡å¿—ä½ï¼Œ
    {
-      if ( m_nDecodedBytes > 0)//ÉÏÒ»¸ö±êÖ¾Î»ºóÓĞÊı¾İ
+      if ( m_nDecodedBytes > 0)//ä¸Šä¸€ä¸ªæ ‡å¿—ä½åæœ‰æ•°æ®
       {
           if (m_pfCB )
           {
@@ -301,36 +301,36 @@ inline void CHDLCDecode::OnFrameFlagByte(int nOffset)
           m_nDecodedBytes    = 0;
           m_bFlagByte        = false;
       }
-	  //Á¬ĞøµÄ±êÖ¾Î»£¬²»×÷´¦Àí
+	  //è¿ç»­çš„æ ‡å¿—ä½ï¼Œä¸ä½œå¤„ç†
    }
    else
    {
       m_nOffsetInStream =  nOffset;
       m_bFlagByte       =  true;
    }
-   //¼ì²âµ½±êÖ¾Î»ºóÇåÀíÕıÔÚ½âÂëµÄ¿ØÖÆ²ÎÊı
+   //æ£€æµ‹åˆ°æ ‡å¿—ä½åæ¸…ç†æ­£åœ¨è§£ç çš„æ§åˆ¶å‚æ•°
    m_ucDecodingByte    = 0;
    m_nDecodedBits      = 0;
 }
 
 
 //////////////////////////////////////////////////////////////////////
-//¹«ÓĞº¯Êı
+//å…¬æœ‰å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCEncode::StartDecode
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚÆô¶¯Ò»¸ö½âÂë¹ı³Ì
-*º¯Êı²ÎÊı:                      
-*          pfCB          : ONFRAMEENCODED => »Øµ÷º¯ÊıµØÖ·
-*          wBufferSize   : unsigned short => ½âÂë»º³åÇø×Ö½ÚÊı
-*          pUserData     : void* =>ÓÃ»§Êı¾İ£¬×÷Îª²ÎÊıÍ¸´«¸ø»Øµ÷º¯Êı
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
-* Ëµ   Ã÷:
-*      ½âÂë¹ı³ÌÆô¶¯ºó£¬µÈ´ıµ÷ÓÃÕßĞ´Èë±àÂëºóµÄÊı¾İ£¬
-*      µ±ÒÑ½âÂë×Ö½ÚÊı´ïµ½wBufferSizeÖ¸¶¨·§Öµ
-*      »òÒ»Ö¡Êı¾İ½âÂëÍê³ÉÊ±µ÷ÓÃ²ÎÊıpfCBËùÖ¸ÏòµÄº¯Êı
+*å‡½æ•°æè¿°: ç”¨äºå¯åŠ¨ä¸€ä¸ªè§£ç è¿‡ç¨‹
+*å‡½æ•°å‚æ•°:                      
+*          pfCB          : ONFRAMEENCODED => å›è°ƒå‡½æ•°åœ°å€
+*          wBufferSize   : unsigned short => è§£ç ç¼“å†²åŒºå­—èŠ‚æ•°
+*          pUserData     : void* =>ç”¨æˆ·æ•°æ®ï¼Œä½œä¸ºå‚æ•°é€ä¼ ç»™å›è°ƒå‡½æ•°
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
+* è¯´   æ˜:
+*      è§£ç è¿‡ç¨‹å¯åŠ¨åï¼Œç­‰å¾…è°ƒç”¨è€…å†™å…¥ç¼–ç åçš„æ•°æ®ï¼Œ
+*      å½“å·²è§£ç å­—èŠ‚æ•°è¾¾åˆ°wBufferSizeæŒ‡å®šé˜€å€¼
+*      æˆ–ä¸€å¸§æ•°æ®è§£ç å®Œæˆæ—¶è°ƒç”¨å‚æ•°pfCBæ‰€æŒ‡å‘çš„å‡½æ•°
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 void CHDLCDecode::StartDecode(ONFRAMEDECODED   pfCB, 
                                 unsigned short wBufferSize, 
@@ -344,12 +344,12 @@ void CHDLCDecode::StartDecode(ONFRAMEDECODED   pfCB,
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCDecode::DecodeBuffer
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ½ÓÊÕÁ÷Êı¾İ²¢½âÂë
-*º¯Êı²ÎÊı:                      
-*          pData  : const char* => Êı¾İ»º³åÇøÊ×µØÖ·
-*          nSize  : int         => Êı¾İ×Ö½ÚÊı
-*·µ»ØÀàĞÍ: int 
-*·µ »Ø Öµ: ±¾´ÎÊı¾İ»Øµ÷´ÎÊı
+*å‡½æ•°æè¿°: ç”¨äºæ¥æ”¶æµæ•°æ®å¹¶è§£ç 
+*å‡½æ•°å‚æ•°:                      
+*          pData  : const char* => æ•°æ®ç¼“å†²åŒºé¦–åœ°å€
+*          nSize  : int         => æ•°æ®å­—èŠ‚æ•°
+*è¿”å›ç±»å‹: int 
+*è¿” å› å€¼: æœ¬æ¬¡æ•°æ®å›è°ƒæ¬¡æ•°
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 int CHDLCDecode::DecodeBuffer(const char *pData, int nSize)
 {
@@ -366,18 +366,18 @@ int CHDLCDecode::DecodeBuffer(const char *pData, int nSize)
            {
               m_nHighLevelBits++;
               AddBit(1);
-              if( m_nHighLevelBits > 6)    //Á¬Ğø7¸ö1 Abort
+              if( m_nHighLevelBits > 6)    //è¿ç»­7ä¸ª1 Abort
               {
                 OnFrameAbort();
               }
            }
            else
            {
-                 if(6 == m_nHighLevelBits)    //Á¬Ğø6¸ö1
+                 if(6 == m_nHighLevelBits)    //è¿ç»­6ä¸ª1
                  {
                       OnFrameFlagByte(pEnd  - p);
                  }
-                 else if(5 != m_nHighLevelBits) //Á¬Ğø5¸ö'1' É¾³ı '0'
+                 else if(5 != m_nHighLevelBits) //è¿ç»­5ä¸ª'1' åˆ é™¤ '0'
                  {
                       AddBit(0);
                  }  
@@ -391,11 +391,11 @@ int CHDLCDecode::DecodeBuffer(const char *pData, int nSize)
   return  nFrame;
 }
 //----------------------------------------------------------------------------
-// ±àÂëÀà
+// ç¼–ç ç±»
 //----------------------------------------------------------------------------
 
 //////////////////////////////////////////////////////////////////////
-//¹¹Ôì/Îö¹¹º¯Êı
+//æ„é€ /ææ„å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 
 
@@ -421,32 +421,32 @@ CHDLCEncode::~CHDLCEncode()
 
 }
 //////////////////////////////////////////////////////////////////////
-//Ë½ÓĞº¯Êı
+//ç§æœ‰å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCEncode::ResetEncode
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚÖØÖÃ±àÂë¹ı³Ì£¬ËùÓĞ¿ØÖÆ±äÁ¿ÉèÖÃÎª³õÊ¼Öµ
-*º¯Êı²ÎÊı:                      
-*          dwBufSize : unsigned int => ±àÂë»º³åÇø£¨»Øµ÷×î´ó£©×Ö½ÚÊı
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºé‡ç½®ç¼–ç è¿‡ç¨‹ï¼Œæ‰€æœ‰æ§åˆ¶å˜é‡è®¾ç½®ä¸ºåˆå§‹å€¼
+*å‡½æ•°å‚æ•°:                      
+*          dwBufSize : unsigned int => ç¼–ç ç¼“å†²åŒºï¼ˆå›è°ƒæœ€å¤§ï¼‰å­—èŠ‚æ•°
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCEncode::ResetEncode(unsigned int dwBufSize)
 {
 
 	m_bFlagByteInserted = false;
 
-	m_nHighLevelBits = 0; //Á¬Ğø¸ßµçÆ½£¨BIT 1)Î»Êı
+	m_nHighLevelBits = 0; //è¿ç»­é«˜ç”µå¹³ï¼ˆBIT 1)ä½æ•°
 	
 	m_nEncodedBytes   = 0;
 
-    m_ucEncodingByte = 0; //ÕıÔÚ±àÂëµÄ×Ö½Ú
-    m_nEncodedBits   = 0; //ÒÑ±àÂëµÄÎ»£¨BIT)Êı
-    m_nEncodedBytes  = 0; //ÒÑ±àÂëµÄ×Ö½ÚÊı
+    m_ucEncodingByte = 0; //æ­£åœ¨ç¼–ç çš„å­—èŠ‚
+    m_nEncodedBits   = 0; //å·²ç¼–ç çš„ä½ï¼ˆBIT)æ•°
+    m_nEncodedBytes  = 0; //å·²ç¼–ç çš„å­—èŠ‚æ•°
 	m_ucFlagByte     = 0x7E;
-	//·ÖÅä»º´æÇø
+	//åˆ†é…ç¼“å­˜åŒº
     if (!m_pszStreamEncodedBuf || dwBufSize > m_nBlockSize )
     {
         m_pszStreamEncodedBuf =(unsigned char*) realloc(m_pszStreamEncodedBuf, dwBufSize);
@@ -460,10 +460,10 @@ inline void CHDLCEncode::ResetEncode(unsigned int dwBufSize)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                       CHDLCEncode::EncodeByte
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ¶ÔÒ»¸ö×Ö½Ú½øĞĞ±àÂë
-*º¯Êı²ÎÊı:                       
-*          ucTemp : unsigned char =>  Òª±àÂë
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºå¯¹ä¸€ä¸ªå­—èŠ‚è¿›è¡Œç¼–ç 
+*å‡½æ•°å‚æ•°:                       
+*          ucTemp : unsigned char =>  è¦ç¼–ç 
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCEncode::EncodeByte(unsigned char ucTemp)
 {
@@ -472,7 +472,7 @@ inline void CHDLCEncode::EncodeByte(unsigned char ucTemp)
          if(0x80 == (ucTemp & 0x80) )
          {
               AddBit(1);
-			  if(5 == (++m_nHighLevelBits) ) //5¸ö'1' ²åÈë '0'
+			  if(5 == (++m_nHighLevelBits) ) //5ä¸ª'1' æ’å…¥ '0'
 			  {
 				 AddBit(0);
                  m_nHighLevelBits =0;
@@ -492,10 +492,10 @@ inline void CHDLCEncode::EncodeByte(unsigned char ucTemp)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCEncode::InsertFlagByte
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ²åÈë±êÖ¾Î»
-*º¯Êı²ÎÊı:                      
-*          bFrameStart : bool => ÊÇ·ñÖ¡Íê³É
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºæ’å…¥æ ‡å¿—ä½
+*å‡½æ•°å‚æ•°:                      
+*          bFrameStart : bool => æ˜¯å¦å¸§å®Œæˆ
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
@@ -504,9 +504,9 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 
       unsigned char ucOutput = BYTE_HDLC_FRAME_FLAG;
 
-		//Step1£º¹¹³ÉÒ»¸ö32ÕûÊı
-       //m_nEncodedBits ×óÒÆÎ»Êı               dwTemp
-      //-------------------------------£³------£²--------£±-------£°-----------
+		//Step1ï¼šæ„æˆä¸€ä¸ª32æ•´æ•°
+       //m_nEncodedBits å·¦ç§»ä½æ•°               dwTemp
+      //-------------------------------ï¼“------ï¼’--------ï¼‘-------ï¼-----------
 		  //  1   <<      (7)       |0000000x|01111110|01111110|01111110|;  
 		  //  2   <<      (6)       |000000xx|01111110|01111110|01111110|;  
 		  //  3   <<      (5)       |00000xxx|01111110|01111110|01111110|;  
@@ -518,8 +518,8 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 		  //                          m_ucEncodingByte
 
 	   //Step2
-       // m_nEncodedBits ×óÒÆÎ»Êı          dwTemp                       m_ucFlagByte    
-       //-----------------------------£³--------£²------£±-------£°----------
+       // m_nEncodedBits å·¦ç§»ä½æ•°          dwTemp                       m_ucFlagByte    
+       //-----------------------------ï¼“--------ï¼’------ï¼‘-------ï¼----------
 		  //  1   <<      (7)     |x0111111|00111111|00111111|????????|;  0X3F
 		  //  2   <<      (6)     |xx011111|10011111|10011111|????????|;  0X9F
 		  //  3   <<      (5)     |xxx01111|11001111|11001111|????????|;  0XCF
@@ -531,8 +531,8 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
   		  //                     ucOutput     |
 		  //                                  m_ucFlagByte
 
-	  //Step3: dwTempÓÒÒÆ24Î»È¡µÍ×Ö½Ú=¡·ucOutput(×îºóÒ»¸öÊı¾İ×Ö½Ú£©
-      // ÓÒÒÆ24                        dwTemp                     
+	  //Step3: dwTempå³ç§»24ä½å–ä½å­—èŠ‚=ã€‹ucOutput(æœ€åä¸€ä¸ªæ•°æ®å­—èŠ‚ï¼‰
+      // å³ç§»24                        dwTemp                     
       //-------------------3--------2--------1--------0----------
 	  //  1   << (7)    |00000000|00000000|00000000|x0111111|
 	  //  2   << (6)    |00000000|00000000|00000000|xx011111|
@@ -544,8 +544,8 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 	  //                                             |    
 	  //                                            ucOutput
 
-	  //Step4 : dwTemp ÓÒÒÆ 16Î»È¡µÍ×Ö½Ú => m_ucFlagByte£¨½áÊø±êÖ¾Î»£©
-      // ÓÒÒÆ16                        dwTemp                     
+	  //Step4 : dwTemp å³ç§» 16ä½å–ä½å­—èŠ‚ => m_ucFlagByteï¼ˆç»“æŸæ ‡å¿—ä½ï¼‰
+      // å³ç§»16                        dwTemp                     
       //--------------------3--------2--------1--------0----------
 	  // 1  << (7)    |00000000|00000000|x0111111|00111111|
 	  // 2  << (6)    |00000000|00000000|xx011111|10011111|
@@ -557,16 +557,16 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 	  //                                              |
 	  //                                              m_ucFlagByte
 
-	  //Step5 m_ucFlagByte ÓÒÒÆnShift Î»¡¡£½¡·¡¡m_ucEncodingByte
+	  //Step5 m_ucFlagByte å³ç§»nShift ä½ã€€ï¼ã€‹ã€€m_ucEncodingByte
       //              m_ucFlagByte            m_ucEncodingByte         
       //--------------------------------------------------------------------
-	  // 1  >> (7)    |00111111|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 0 0 0 0 0 £° £ü¡¡
-	  // 2  >> (6)    |10011111|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 0 0 0 0 £±£° £ü¡¡¡¡
-	  // 3  >> (5)    |11001111|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 0 0 0 £±£±£° £ü¡¡¡¡¡¡
-	  // 4  >> (4)    |11100111|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 0 0 £±£±£±£° £ü¡¡¡¡
-	  // 5  >> (3)    |11110011|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 0 £±£±£±£±£° £ü¡¡¡¡
-	  // 6  >> (2)    |11111001|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 0 £±£±£±£±£±£° £ü¡¡¡¡¡¡
-	  // 7  >> (1)    |11111100|¡¡¡¡¡¡¡¡¡¡¡¡£ü0 £±£±£±£±£±£±£° £ü¡¡
+	  // 1  >> (7)    |00111111|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 0 0 0 0 0 ï¼ ï½œã€€
+	  // 2  >> (6)    |10011111|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 0 0 0 0 ï¼‘ï¼ ï½œã€€ã€€
+	  // 3  >> (5)    |11001111|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 0 0 0 ï¼‘ï¼‘ï¼ ï½œã€€ã€€ã€€
+	  // 4  >> (4)    |11100111|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 0 0 ï¼‘ï¼‘ï¼‘ï¼ ï½œã€€ã€€
+	  // 5  >> (3)    |11110011|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 0 ï¼‘ï¼‘ï¼‘ï¼‘ï¼ ï½œã€€ã€€
+	  // 6  >> (2)    |11111001|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 0 ï¼‘ï¼‘ï¼‘ï¼‘ï¼‘ï¼ ï½œã€€ã€€ã€€
+	  // 7  >> (1)    |11111100|ã€€ã€€ã€€ã€€ã€€ã€€ï½œ0 ï¼‘ï¼‘ï¼‘ï¼‘ï¼‘ï¼‘ï¼ ï½œã€€
 
 	  if(0 != m_nEncodedBits)
 	  {
@@ -590,8 +590,8 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 
 	  if(bFrameDone ) //End Flag Byte
       {
-//   bFrameStart = true, FreeBytesÎª»º³åÇøµÄ¿ÕÏĞ×Ö½ÚÊı
-//     m_nEncodedBits  FreeBytes   ×·¼Ó×Ö½Ú  »Øµ÷´ÎÊı
+//   bFrameStart = true, FreeBytesä¸ºç¼“å†²åŒºçš„ç©ºé—²å­—èŠ‚æ•°
+//     m_nEncodedBits  FreeBytes   è¿½åŠ å­—èŠ‚  å›è°ƒæ¬¡æ•°
 //        0                           1         1
 //        !=0             >1          2         1 
 //        !=0              1          2         2
@@ -606,7 +606,7 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 		   {
 			  m_pfCB(HDLC_FRAME_DONE,
 					  (const char*)m_pszStreamEncodedBuf,
-					  m_nEncodedBytes,   //ÓĞ¿ÉÄÜÎª0
+					  m_nEncodedBytes,   //æœ‰å¯èƒ½ä¸º0
 					  m_pUserData);
 		   }
 		   m_nEncodedBytes = 0;
@@ -621,15 +621,15 @@ inline void CHDLCEncode::InsertFlagByte(bool bFrameDone)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCEncode::EncodeFrameStream
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ¶ÔÖ¡Êı¾İ½øĞĞÁ¬Ğø±àÂë
-*º¯Êı²ÎÊı:                      
-*          nType     : int          => ÀàĞÍ
-*                      HDCL_FRAME_DATA -- Êı¾İÖ¡µÄÒ»¸ö°ü
-*                      HDCL_FRAME_DONE -- Êı¾İÖ¡µÄ×îºóÒ»¸ö°ü
-*          szBuffer  : const char*  => Êı¾İÖ¡ÄÚÈİ
-*          dwLen     : unsigned int => Êı¾İÖ¡×Ö½ÚÊı
-*·µ»ØÀàĞÍ: int 
-*·µ »Ø Öµ: 0 -- Ê§°Ü£¬ 1 -- ³É¹¦
+*å‡½æ•°æè¿°: ç”¨äºå¯¹å¸§æ•°æ®è¿›è¡Œè¿ç»­ç¼–ç 
+*å‡½æ•°å‚æ•°:                      
+*          nType     : int          => ç±»å‹
+*                      HDCL_FRAME_DATA -- æ•°æ®å¸§çš„ä¸€ä¸ªåŒ…
+*                      HDCL_FRAME_DONE -- æ•°æ®å¸§çš„æœ€åä¸€ä¸ªåŒ…
+*          szBuffer  : const char*  => æ•°æ®å¸§å†…å®¹
+*          dwLen     : unsigned int => æ•°æ®å¸§å­—èŠ‚æ•°
+*è¿”å›ç±»å‹: int 
+*è¿” å› å€¼: 0 -- å¤±è´¥ï¼Œ 1 -- æˆåŠŸ
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 int CHDLCEncode::EncodeFrameStream(int nType, 
 							 const char *szBuffer, 
@@ -642,7 +642,7 @@ int CHDLCEncode::EncodeFrameStream(int nType,
     }
 
 
-  //--²åÈëÆğÊ¼±êÖ¾Î»
+  //--æ’å…¥èµ·å§‹æ ‡å¿—ä½
   if (!m_bFlagByteInserted)
   {
 	    InsertFlagByte(false);
@@ -681,7 +681,7 @@ unsigned int CHDLCEncode::EncodeFrame( const char  *szRaw,
     m_nResultBufSize = dwBufferSize;   
     m_nResultBufPtr  = 0; 
        
- //--²åÈëÆğÊ¼±êÖ¾Î»
+ //--æ’å…¥èµ·å§‹æ ‡å¿—ä½
      InsertFlagByte(false);
      const unsigned char* p    = (const unsigned char* )szRaw;
      const unsigned char* pEnd = p + dwRawSize;
@@ -701,16 +701,16 @@ unsigned char CHDLCEncode::GetFlagByteInverse() const
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                         CHDLCEncode::AddBit
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚÕıÔÚ±àÂëµÄ×Ö½ÚÔö¼Ó1Î»£¨BIT)
-*º¯Êı²ÎÊı:                         
-*          ucBit : unsigned char => Î»Öµ £¨0/1)
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºæ­£åœ¨ç¼–ç çš„å­—èŠ‚å¢åŠ 1ä½ï¼ˆBIT)
+*å‡½æ•°å‚æ•°:                         
+*          ucBit : unsigned char => ä½å€¼ ï¼ˆ0/1)
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 __forceinline void CHDLCEncode::AddBit(unsigned char ucBit)
 {
        m_ucEncodingByte <<= 1;
        m_ucEncodingByte |= ucBit;
-	   //ÂúÒ»¸ö×Ö½Ú£¬¼ÓÈë»º³åÇø
+	   //æ»¡ä¸€ä¸ªå­—èŠ‚ï¼ŒåŠ å…¥ç¼“å†²åŒº
        if (8 == (++m_nEncodedBits) )
        {
           OnByteEncoded( m_ucEncodingByte);
@@ -722,14 +722,14 @@ __forceinline void CHDLCEncode::AddBit(unsigned char ucBit)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                     CHDLCEncode::OnByteEncoded
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ½«Ò»¸öÒÑ½âÂëµÄ×Ö½Ú¼ÓÈë»º³åÇø£¬»º³åÇøÂúÊ±µ÷ÓÃ»Øµ÷º¯Êı
-*º¯Êı²ÎÊı:                     
-*          ucByte : unsigned char =>ÒÑ½âÂëµÄ×Ö½Ú
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äºå°†ä¸€ä¸ªå·²è§£ç çš„å­—èŠ‚åŠ å…¥ç¼“å†²åŒºï¼Œç¼“å†²åŒºæ»¡æ—¶è°ƒç”¨å›è°ƒå‡½æ•°
+*å‡½æ•°å‚æ•°:                     
+*          ucByte : unsigned char =>å·²è§£ç çš„å­—èŠ‚
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline  void CHDLCEncode::OnByteEncoded(unsigned char ucByte)
 {
-   //×Ö½ÚÁ÷ºÍ´æ´¢ÊÇµ¹Ğò¹ØÏµ      
+   //å­—èŠ‚æµå’Œå­˜å‚¨æ˜¯å€’åºå…³ç³»      
  
     if(m_pfCB)
     {
@@ -758,13 +758,13 @@ inline  void CHDLCEncode::OnByteEncoded(unsigned char ucByte)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                     CHDLCEncode::OnFrameEncoded
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚ
-*º¯Êı²ÎÊı: ÎŞ
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
+*å‡½æ•°æè¿°: ç”¨äº
+*å‡½æ•°å‚æ•°: æ— 
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 inline  void CHDLCEncode::OnFrameEncoded()
 {
-   //--²åÈë½áÊø±êÖ¾Î»
+   //--æ’å…¥ç»“æŸæ ‡å¿—ä½
     InsertFlagByte(true);
     m_bFlagByteInserted = false;
 
@@ -779,7 +779,7 @@ inline  void CHDLCEncode::OnFrameEncoded()
 
 }
 //////////////////////////////////////////////////////////////////////
-//¹«ÓĞº¯Êı
+//å…¬æœ‰å‡½æ•°
 //////////////////////////////////////////////////////////////////////
 void CHDLCEncode::SetPlaybackBaudRate(unsigned int nBaudRate)
 {
@@ -792,16 +792,16 @@ void CHDLCEncode::SetPlaybackBaudRate(unsigned int nBaudRate)
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
                      CHDLCEncode::StartEncode
 --------------------------------------------------------
-*º¯ÊıÃèÊö: ÓÃÓÚÆô¶¯Ò»¸ö±àÂë¹ı³Ì
-*º¯Êı²ÎÊı:                      
-*          pfCB          : ONFRAMEENCODED => »Øµ÷º¯ÊıµØÖ·£¬
-*          wMaxFrameSize : unsigned short => ±àÂë»º³åÇø×Ö½ÚÊı
-*          pUserData     : void* =>ÓÃ»§Êı¾İ£¬×÷Îª²ÎÊıÍ¸´«¸ø»Øµ÷º¯Êı
-*·µ»ØÀàĞÍ: ÎŞ·µ»ØÖµ
-* Ëµ   Ã÷:
-*      ±àÂë¹ı³Ì£¬µÈ´ıµ÷ÓÃÕßĞ´ÈëÒ»½âÂëµÄÊı¾İÖ¡£¬
-*      µ±ÒÑ±àÂë×Ö½ÚÊı´ïµ½wMaxFrameSizeÖ¸¶¨·§Öµ
-*      »òÒ»Ö¡Êı¾İ±àÂëÍê³ÉÊ±µ÷ÓÃ²ÎÊıpfCBËùÖ¸ÏòµÄº¯Êı
+*å‡½æ•°æè¿°: ç”¨äºå¯åŠ¨ä¸€ä¸ªç¼–ç è¿‡ç¨‹
+*å‡½æ•°å‚æ•°:                      
+*          pfCB          : ONFRAMEENCODED => å›è°ƒå‡½æ•°åœ°å€ï¼Œ
+*          wMaxFrameSize : unsigned short => ç¼–ç ç¼“å†²åŒºå­—èŠ‚æ•°
+*          pUserData     : void* =>ç”¨æˆ·æ•°æ®ï¼Œä½œä¸ºå‚æ•°é€ä¼ ç»™å›è°ƒå‡½æ•°
+*è¿”å›ç±»å‹: æ— è¿”å›å€¼
+* è¯´   æ˜:
+*      ç¼–ç è¿‡ç¨‹ï¼Œç­‰å¾…è°ƒç”¨è€…å†™å…¥ä¸€è§£ç çš„æ•°æ®å¸§ï¼Œ
+*      å½“å·²ç¼–ç å­—èŠ‚æ•°è¾¾åˆ°wMaxFrameSizeæŒ‡å®šé˜€å€¼
+*      æˆ–ä¸€å¸§æ•°æ®ç¼–ç å®Œæˆæ—¶è°ƒç”¨å‚æ•°pfCBæ‰€æŒ‡å‘çš„å‡½æ•°
 *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 void CHDLCEncode::StartEncode(ONFRAMEENCODED   pfCB, 
                                 unsigned short wMaxFrameSize, 
